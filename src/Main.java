@@ -14,41 +14,47 @@ public class Main {
         }
     }
 
-    public static void choiceVersion(int typeOS, int yearOfProduction) {
+    public static void choiceVersion(int clientTypeOS, int clientDeviceYear) {
         int currentYear = LocalDate.now().getYear();
-        if (typeOS != 0 && typeOS != 1) {
-            System.out.println(typeOS + " - некорректная ОС");
+        String clientOsName;
+//        if (clientTypeOS != 0 && clientTypeOS != 1) {
+//            System.out.println(clientTypeOS + " - некорректная ОС");
+//            return;
+//        }
+        if (clientDeviceYear > currentYear || clientDeviceYear < 1990) {
+            System.out.println(clientDeviceYear + " - некорректный год");
             return;
         }
-        if (yearOfProduction > currentYear || yearOfProduction < 1990) {
-            System.out.println(yearOfProduction + " - некорректный год");
-            return;
+        switch (clientTypeOS) {
+            case 0:
+                clientOsName = "iOS";
+                break;
+            case 1:
+                clientOsName = "Android";
+                break;
+            default:
+                clientOsName = "неизвестная ОС";
         }
 
-        if (yearOfProduction < currentYear && typeOS == 0) {
-            System.out.println("Установите облегченную версию приложения для IOS по ссылке.");
+        if (clientDeviceYear < currentYear) {
+            System.out.println("Установите облегченную версию приложения для " + clientOsName + " по ссылке.");
         }
-        if (yearOfProduction < currentYear && typeOS == 1) {
-            System.out.println("Установите облегченную версию приложения для Android по ссылке.");
-        }
-        if (yearOfProduction == currentYear && typeOS == 0) {
-            System.out.println("Установите обычную версию приложения для IOS по ссылке.");
-        }
-        if (yearOfProduction == currentYear && typeOS == 1) {
-            System.out.println("Установите обычную версию приложения для Android по ссылке.");
+        if (clientDeviceYear == currentYear) {
+            System.out.println("Установите обычную версию приложения для " + clientOsName + " по ссылке.");
         }
     }
 
-    public static int deliveryCard(int deliveryDistance){
-        int deliveryTime = 1;
-        if(deliveryDistance < 0 || deliveryDistance >100){
-            throw new RuntimeException("доставки нет.");
-        }
-        if (deliveryDistance >= 20 && deliveryDistance < 60) {
-            deliveryTime++;
-        }
-        if (deliveryDistance >= 60 && deliveryDistance <= 100) {
-            deliveryTime+=2;
+    public static int deliveryCard(int deliveryDistance) {
+        int deliveryTime;
+//        if(deliveryDistance < 0 || deliveryDistance >100){
+//            System.out.println("");
+//        }
+        if (deliveryDistance <= 20) {
+            deliveryTime = 1;
+        } else if (deliveryDistance <= 60) {
+            deliveryTime = 2;
+        } else {
+            deliveryTime = 3;
         }
         return deliveryTime;
     }
@@ -60,6 +66,7 @@ public class Main {
 
         System.out.println("\nTask 2");
         choiceVersion(0, 2024);
+        choiceVersion(1, 2022);
 
         System.out.println("\nTask 3");
         System.out.println("для доставки карты потребуется дней: " + deliveryCard(20));
